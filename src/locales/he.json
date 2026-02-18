@@ -1,0 +1,118 @@
+{
+  "app": {
+    "name": "LatchLog"
+  },
+  "auth": {
+    "login": "התחברות",
+    "register": "הרשמה",
+    "email": "אימייל",
+    "password": "סיסמה",
+    "phone": "מספר טלפון",
+    "displayName": "שם תצוגה",
+    "loginButton": "התחבר",
+    "registerButton": "הרשם",
+    "noAccount": "אין לך חשבון?",
+    "hasAccount": "יש לך חשבון?",
+    "logout": "התנתק",
+    "otpSent": "קוד נשלח",
+    "enterOtp": "הזן קוד אימות",
+    "verify": "אמת"
+  },
+  "home": {
+    "title": "המנעולים שלי",
+    "empty": "אין מנעולים עדיין",
+    "addLock": "הוסף מנעול",
+    "locked": "נעול",
+    "unlocked": "פתוח",
+    "unknown": "לא ידוע",
+    "lastAction": "פעולה אחרונה",
+    "ago": "לפני",
+    "recentActivity": "פעילות אחרונה",
+    "viewAll": "הכל"
+  },
+  "lock": {
+    "markLocked": "סמן כנעול",
+    "markUnlocked": "סמן כפתוח",
+    "name": "שם המנעול",
+    "create": "צור מנעול",
+    "delete": "מחק מנעול",
+    "nfcTag": "תג NFC",
+    "qrCode": "קוד QR",
+    "detail": "פרטי מנעול",
+    "recorded": "תועד!",
+    "scanNfc": "סרוק NFC",
+    "scanQr": "סרוק QR"
+  },
+  "history": {
+    "title": "היסטוריה",
+    "empty": "אין פעולות עדיין",
+    "filterByLock": "סנן לפי מנעול",
+    "filterByUser": "סנן לפי משתמש",
+    "filterByDate": "סנן לפי תאריך",
+    "allLocks": "כל המנעולים",
+    "allUsers": "כל המשתמשים",
+    "locked": "נעל/ה",
+    "unlocked": "פתח/ה"
+  },
+  "group": {
+    "title": "קבוצה",
+    "create": "צור קבוצה",
+    "name": "שם הקבוצה",
+    "inviteCode": "קוד הזמנה",
+    "invite": "הזמן משתמש",
+    "join": "הצטרף לקבוצה",
+    "enterCode": "הזן קוד הזמנה",
+    "members": "חברים",
+    "admin": "מנהל",
+    "member": "חבר",
+    "guest": "אורח",
+    "copied": "קוד הועתק!",
+    "leave": "עזוב קבוצה",
+    "manage": "ניהול קבוצה"
+  },
+  "members": {
+    "title": "משתמשים",
+    "empty": "אין משתמשים בקבוצה",
+    "addUser": "הוסף משתמש",
+    "registerNew": "רשום משתמש חדש",
+    "role": "תפקיד",
+    "joined": "הצטרף",
+    "you": "את/ה",
+    "removeConfirm": "להסיר משתמש זה מהקבוצה?",
+    "removed": "המשתמש הוסר",
+    "registered": "המשתמש נרשם והצטרף לקבוצה!",
+    "changeRole": "שנה תפקיד"
+  },
+  "settings": {
+    "title": "הגדרות",
+    "profile": "פרופיל",
+    "darkMode": "מצב כהה",
+    "notifications": "התראות",
+    "about": "אודות",
+    "version": "גרסה"
+  },
+  "common": {
+    "save": "שמור",
+    "cancel": "בטל",
+    "delete": "מחק",
+    "confirm": "אישור",
+    "loading": "טוען...",
+    "error": "שגיאה",
+    "success": "הצלחה",
+    "retry": "נסה שוב",
+    "close": "סגור"
+  },
+  "time": {
+    "justNow": "עכשיו",
+    "minutesAgo": "דקות",
+    "hoursAgo": "שעות",
+    "daysAgo": "ימים",
+    "ago": "לפני"
+  },
+  "source": {
+    "nfc": "NFC",
+    "qr": "QR",
+    "manual": "ידני",
+    "app_clip": "App Clip"
+  }
+}
