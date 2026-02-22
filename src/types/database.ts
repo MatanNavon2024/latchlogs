@@ -1,6 +1,6 @@
 export type UserRole = "admin" | "member" | "guest";
 export type LockAction = "lock" | "unlock";
-export type EventSource = "nfc" | "qr" | "manual" | "app_clip";
+export type EventSource = "nfc" | "qr" | "manual" | "app_clip" | "geofence";
 export type PlanType = "free" | "pro";
 
 export interface Profile {
@@ -37,6 +37,9 @@ export interface Lock {
   name: string;
   nfc_tag_id: string | null;
   qr_code_id: string;
+  latitude: number | null;
+  longitude: number | null;
+  geofence_radius: number;
   created_by: string;
   created_at: string;
 }

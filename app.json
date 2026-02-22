@@ -16,8 +16,27 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.matannavon.latchlog",
+      "deploymentTarget": "16.0",
+      "associatedDomains": [
+        "applinks:latchlogs.com",
+        "appclips:latchlogs.com"
+      ],
+      "entitlements": {
+        "com.apple.developer.associated-appclip-app-identifiers": [
+          "$(AppIdentifierPrefix)com.matannavon.latchlog.Clip"
+        ]
+      },
       "infoPlist": {
-        "NFCReaderUsageDescription": "LatchLog uses NFC to identify door locks"
+        "NFCReaderUsageDescription": "LatchLog uses NFC to identify door locks",
+        "NSLocationWhenInUseUsageDescription": "LatchLog uses your location to set lock positions and remind you to lock",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "LatchLog monitors your location in the background to send lock reminders when you leave",
+        "NSLocationAlwaysUsageDescription": "LatchLog monitors your location in the background to send lock reminders when you leave",
+        "UIBackgroundModes": [
+          "location",
+          "fetch",
+          "remote-notification"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -26,7 +45,17 @@
         "backgroundColor": "#0F172A"
       },
       "package": "com.latchlog.app",
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.NFC",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -36,7 +65,12 @@
       "expo-router",
       "expo-secure-store",
       "expo-localization",
-      "react-native-nfc-manager",
+      [
+        "react-native-nfc-manager",
+        {
+          "includeNdefEntitlement": false
+        }
+      ],
       [
         "expo-camera",
         {
@@ -50,17 +84,20 @@
         }
       ],
       [
-        "react-native-app-clip",
+        "expo-location",
         {
-          "name": "LatchLog Clip",
-          "deploymentTarget": "16.0",
-          "requestEphemeralUserNotification": true,
-          "excludedPackages": [
-            "react-native-nfc-manager",
-            "expo-camera"
-          ]
+          "locationAlwaysAndWhenInUsePermission": "LatchLog monitors your location in the background to send lock reminders when you leave",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "115c5d2d-f926-4e04-a3ee-46731568754e"
+      }
+    },
+    "owner": "matannavon"
   }
 }

@@ -68,7 +68,8 @@ export default function ScanScreen() {
 
         {/* Close button */}
         <TouchableOpacity
-          className="absolute top-4 left-4 bg-black/50 w-10 h-10 rounded-full items-center justify-center"
+          className="absolute bg-black/50 w-10 h-10 rounded-full items-center justify-center"
+          style={{ top: insets.top + 12, left: insets.left + 16 }}
           onPress={() => router.back()}
         >
           <MaterialCommunityIcons name="close" size={24} color="white" />

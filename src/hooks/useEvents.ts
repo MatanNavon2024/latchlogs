@@ -1,11 +1,13 @@
 import { useState, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 import type { EventWithDetails } from "../types/database";
+import { sendPushToGroupMembers } from "../lib/notifications";
 
 const PAGE_SIZE = 30;
 
 interface UseEventsOptions {
   lockId?: string;
+  groupId?: string;
   userId?: string;
   startDate?: string;
   endDate?: string;
@@ -22,15 +24,20 @@ export function useEvents(options: UseEventsOptions = {}) {
       setLoading(true);
       const currentPage = reset ? 0 : page;
 
+      const selectLock = options.groupId
+        ? "*, lock:locks!inner(name, group_id)"
+        : "*, lock:locks(name)";
+
       let query = supabase
         .from("events")
-        .select("*, lock:locks(name)")
+        .select(selectLock)
         .order("created_at", { ascending: false })
         .range(
           currentPage * PAGE_SIZE,
           (currentPage + 1) * PAGE_SIZE - 1
         );
 
+      if (options.groupId) query = query.eq("lock.group_id", options.groupId);
       if (options.lockId) query = query.eq("lock_id", options.lockId);
       if (options.userId) query = query.eq("user_id", options.userId);
       if (options.startDate)
@@ -73,7 +80,7 @@ export function useEvents(options: UseEventsOptions = {}) {
       }
       setLoading(false);
     },
-    [options.lockId, options.userId, options.startDate, options.endDate, page]
+    [options.lockId, options.groupId, options.userId, options.startDate, options.endDate, page]
   );
 
   const loadMore = useCallback(() => {
@@ -88,7 +95,7 @@ export function useEvents(options: UseEventsOptions = {}) {
 export async function recordEvent(
   lockId: string,
   action: "lock" | "unlock",
-  source: "nfc" | "qr" | "manual" | "app_clip"
+  source: "nfc" | "qr" | "manual" | "app_clip" | "geofence"
 ) {
   const {
     data: { user },
@@ -108,5 +115,8 @@ export async function recordEvent(
     .single();
 
   if (error) throw error;
+
+  sendPushToGroupMembers(lockId, action, user.id).catch(() => {});
+
   return data;
 }

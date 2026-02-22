@@ -109,10 +109,24 @@
     "daysAgo": "ימים",
     "ago": "לפני"
   },
+  "geofence": {
+    "reminder": "שכחת לנעול?",
+    "reminderBody": "נראה שעזבת את האזור ו{{lockName}} עדיין פתוח",
+    "markLocked": "סמן כנעול",
+    "setLocation": "הגדר מיקום",
+    "locationSet": "מיקום נשמר",
+    "updateLocation": "עדכן מיקום",
+    "removeLocation": "הסר מיקום",
+    "enableReminders": "תזכורות נעילה",
+    "enableRemindersDesc": "קבל התראה כשאתה מתרחק ממנעול פתוח",
+    "useCurrentLocation": "השתמש במיקום הנוכחי",
+    "locationPermissionDenied": "יש לאשר הרשאת מיקום בהגדרות"
+  },
   "source": {
     "nfc": "NFC",
     "qr": "QR",
     "manual": "ידני",
-    "app_clip": "App Clip"
+    "app_clip": "App Clip",
+    "geofence": "תזכורת מיקום"
   }
 }

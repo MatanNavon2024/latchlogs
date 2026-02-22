@@ -1,0 +1,23 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "9R25HDJZU6.com.matannavon.latchlog"
+        ],
+        "components": [
+          {
+            "/": "/clip/*",
+            "comment": "Lock deep links"
+          }
+        ]
+      }
+    ]
+  },
+  "appclips": {
+    "apps": [
+      "9R25HDJZU6.com.matannavon.latchlog.Clip"
+    ]
+  }
+}
+

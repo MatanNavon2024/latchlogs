@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
+import * as SecureStore from "expo-secure-store";
 import { supabase } from "../lib/supabase";
 import { useAuthStore } from "../stores/authStore";
+import { registerLockGeofences } from "../lib/geofencing";
 import type { LockWithStatus } from "../types/database";
 
 export function useLocks() {
@@ -41,6 +43,16 @@ export function useLocks() {
   useEffect(() => {
     fetchLocks();
   }, [fetchLocks]);
+
+  useEffect(() => {
+    if (locks.length > 0) {
+      SecureStore.getItemAsync("geofence_enabled").then((val) => {
+        if (val === "true") {
+          registerLockGeofences(locks).catch(() => {});
+        }
+      });
+    }
+  }, [locks]);
 
   // Realtime subscription for event inserts
   useEffect(() => {
@@ -83,7 +95,8 @@ export function useLocks() {
 export async function createLock(
   groupId: string,
   name: string,
-  nfcTagId?: string
+  nfcTagId?: string,
+  location?: { latitude: number; longitude: number }
 ) {
   const {
     data: { user },
@@ -97,6 +110,8 @@ export async function createLock(
       group_id: groupId,
       name,
       nfc_tag_id: nfcTagId || null,
+      latitude: location?.latitude ?? null,
+      longitude: location?.longitude ?? null,
       created_by: user.id,
     })
     .select()
@@ -104,6 +119,21 @@ export async function createLock(
 
   if (error) throw error;
   return data;
+}
+
+export async function updateLockLocation(
+  lockId: string,
+  location: { latitude: number; longitude: number } | null
+) {
+  const { error } = await supabase
+    .from("locks")
+    .update({
+      latitude: location?.latitude ?? null,
+      longitude: location?.longitude ?? null,
+    })
+    .eq("id", lockId);
+
+  if (error) throw error;
 }
 
 export async function deleteLock(lockId: string) {

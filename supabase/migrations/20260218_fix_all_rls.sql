@@ -65,6 +65,7 @@ ALTER TABLE events ENABLE ROW LEVEL SECURITY;
 -- ============================================================
 
 DROP POLICY IF EXISTS "Users can view their own profile" ON profiles;
+DROP POLICY IF EXISTS "Users can view profiles of group members" ON profiles;
 DROP POLICY IF EXISTS "Users can update their own profile" ON profiles;
 DROP POLICY IF EXISTS "Users can insert their own profile" ON profiles;
 
@@ -89,10 +90,18 @@ DROP POLICY IF EXISTS "Members and admins can record events" ON events;
 -- RECREATE ALL POLICIES
 -- ============================================================
 
--- PROFILES
-CREATE POLICY "Users can view their own profile"
+-- PROFILES (allow group members to see each other's profiles)
+CREATE POLICY "Users can view profiles of group members"
   ON profiles FOR SELECT
-  USING (auth.uid() = id);
+  USING (
+    auth.uid() = id
+    OR EXISTS (
+      SELECT 1 FROM group_members gm1
+      JOIN group_members gm2 ON gm1.group_id = gm2.group_id
+      WHERE gm1.user_id = auth.uid()
+        AND gm2.user_id = profiles.id
+    )
+  );
 
 CREATE POLICY "Users can insert their own profile"
   ON profiles FOR INSERT

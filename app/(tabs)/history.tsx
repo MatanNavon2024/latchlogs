@@ -12,15 +12,18 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { EventItem } from "../../src/components/EventItem";
 import { useEvents } from "../../src/hooks/useEvents";
 import { useLocks } from "../../src/hooks/useLocks";
+import { useAuthStore } from "../../src/stores/authStore";
 import type { EventWithDetails, Lock } from "../../src/types/database";
 
 export default function HistoryScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const activeGroupId = useAuthStore((s) => s.activeGroupId);
   const [filterLockId, setFilterLockId] = useState<string | undefined>();
 
   const { events, loading, hasMore, loadMore, refresh } = useEvents({
     lockId: filterLockId,
+    groupId: activeGroupId ?? undefined,
   });
   const { locks } = useLocks();
 

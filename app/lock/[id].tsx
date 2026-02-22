@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import * as Location from "expo-location";
 import QRCode from "react-native-qrcode-svg";
 import { Card } from "../../src/components/ui/Card";
 import { Button } from "../../src/components/ui/Button";
@@ -20,7 +21,7 @@ import { EventItem } from "../../src/components/EventItem";
 import { Toast } from "../../src/components/ui/Toast";
 import { supabase } from "../../src/lib/supabase";
 import { recordEvent, useEvents } from "../../src/hooks/useEvents";
-import { deleteLock } from "../../src/hooks/useLocks";
+import { deleteLock, updateLockLocation } from "../../src/hooks/useLocks";
 import { useNFC } from "../../src/hooks/useNFC";
 import { useAuthStore } from "../../src/stores/authStore";
 import { timeAgo } from "../../src/lib/timeAgo";
@@ -38,6 +39,7 @@ export default function LockDetailScreen() {
   const [toast, setToast] = useState({ visible: false, message: "" });
   const [writingNfc, setWritingNfc] = useState(false);
   const [showQr, setShowQr] = useState(false);
+  const [fetchingLocation, setFetchingLocation] = useState(false);
 
   const { events, refresh: refreshEvents } = useEvents({ lockId: id });
 
@@ -93,6 +95,42 @@ export default function LockDetailScreen() {
       setToast({ visible: true, message: t("common.error") });
     }
     setWritingNfc(false);
+  };
+
+  const handleSetLocation = async () => {
+    if (!id) return;
+    setFetchingLocation(true);
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setToast({ visible: true, message: t("geofence.locationPermissionDenied") });
+        setFetchingLocation(false);
+        return;
+      }
+      const pos = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.High,
+      });
+      await updateLockLocation(id, {
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+      });
+      fetchLock();
+      setToast({ visible: true, message: t("geofence.locationSet") });
+    } catch {
+      setToast({ visible: true, message: t("common.error") });
+    }
+    setFetchingLocation(false);
+  };
+
+  const handleRemoveLocation = async () => {
+    if (!id) return;
+    try {
+      await updateLockLocation(id, null);
+      fetchLock();
+      setToast({ visible: true, message: t("common.success") });
+    } catch {
+      setToast({ visible: true, message: t("common.error") });
+    }
   };
 
   const handleDelete = () => {
@@ -279,18 +317,78 @@ export default function LockDetailScreen() {
             <View className="mt-4 items-center">
               <View className="bg-white p-4 rounded-2xl">
                 <QRCode
-                  value={`https://latchlog.app/clip/${lock.id}`}
+                  value={`https://latchlogs.com/clip/${lock.id}`}
                   size={200}
                   backgroundColor="white"
                   color="#0F172A"
                 />
               </View>
               <Text className="text-slate-500 text-xs mt-3 text-center">
-                {`https://latchlog.app/clip/${lock.id}`}
+                {`https://latchlogs.com/clip/${lock.id}`}
               </Text>
             </View>
           )}
         </TouchableOpacity>
+
+        {/* Location / Geofence */}
+        {activeRole === "admin" && (
+          <TouchableOpacity
+            className={`border rounded-2xl py-4 px-5 mb-4 flex-row-reverse items-center justify-between ${
+              lock.latitude
+                ? "bg-brand/10 border-brand/30"
+                : "bg-slate-800 border-slate-700"
+            }`}
+            onPress={handleSetLocation}
+            onLongPress={lock.latitude ? handleRemoveLocation : undefined}
+            disabled={fetchingLocation}
+            activeOpacity={0.7}
+          >
+            <View className="flex-row-reverse items-center gap-3">
+              <View
+                className={`w-10 h-10 rounded-full items-center justify-center ${
+                  lock.latitude ? "bg-brand/20" : "bg-slate-700"
+                }`}
+              >
+                <MaterialCommunityIcons
+                  name="map-marker"
+                  size={22}
+                  color={lock.latitude ? "#3B82F6" : "#94A3B8"}
+                />
+              </View>
+              <View>
+                <Text
+                  className={`font-bold text-right ${
+                    lock.latitude ? "text-brand" : "text-white"
+                  }`}
+                >
+                  {lock.latitude
+                    ? t("geofence.locationSet")
+                    : t("geofence.setLocation")}
+                </Text>
+                <Text className="text-slate-400 text-xs text-right">
+                  {lock.latitude
+                    ? t("geofence.enableRemindersDesc")
+                    : t("geofence.useCurrentLocation")}
+                </Text>
+              </View>
+            </View>
+            {fetchingLocation ? (
+              <ActivityIndicator color="#3B82F6" />
+            ) : lock.latitude ? (
+              <MaterialCommunityIcons
+                name="check-circle"
+                size={22}
+                color="#3B82F6"
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="chevron-left"
+                size={22}
+                color="#64748B"
+              />
+            )}
+          </TouchableOpacity>
+        )}
 
         {/* Lock info */}
         <Card className="mb-4">

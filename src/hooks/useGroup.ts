@@ -87,28 +87,13 @@ export async function createGroup(name: string) {
 }
 
 export async function joinGroupByCode(inviteCode: string) {
-  const { data: sessionData } = await supabase.auth.getSession();
-  const token = sessionData.session?.access_token;
-
-  if (!token) throw new Error("Not authenticated");
-
-  const url = `${process.env.EXPO_PUBLIC_SUPABASE_URL}/functions/v1/join-group`;
-
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ invite_code: inviteCode }),
+  const { data, error } = await supabase.rpc("join_group_by_invite", {
+    p_invite_code: inviteCode,
   });
 
-  if (!response.ok) {
-    const body = await response.json().catch(() => ({}));
-    throw new Error(body.error || "Failed to join group");
-  }
+  if (error) throw new Error(error.message);
 
-  return response.json();
+  return data;
 }
 
 export async function updateMemberRole(

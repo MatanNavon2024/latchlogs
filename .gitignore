@@ -15,6 +15,10 @@ android/
 .env.local
 .env.production
 
+# Build artifacts
+*.xcarchive/
+ExportOptions.plist
+
 # macOS
 .DS_Store
 

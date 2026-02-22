@@ -81,7 +81,7 @@ export async function writeNfcTag(lockId: string): Promise<boolean> {
 
   try {
     await NfcManager.requestTechnology(NfcTech.Ndef);
-    const url = `https://latchlog.app/clip/${lockId}`;
+    const url = `https://latchlogs.com/clip/${lockId}`;
     const bytes = Ndef.encodeMessage([Ndef.uriRecord(url)]);
 
     if (bytes) {

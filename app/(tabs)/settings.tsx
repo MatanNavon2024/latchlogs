@@ -7,6 +7,7 @@ import {
   ScrollView,
   Switch,
   Alert,
+  Image,
 } from "react-native";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -15,8 +16,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Card } from "../../src/components/ui/Card";
 import { Button } from "../../src/components/ui/Button";
 import { Toast } from "../../src/components/ui/Toast";
+import * as SecureStore from "expo-secure-store";
 import { useAuthStore } from "../../src/stores/authStore";
 import { registerForPushNotifications } from "../../src/lib/notifications";
+import {
+  requestLocationPermissions,
+  registerLockGeofences,
+  unregisterGeofences,
+} from "../../src/lib/geofencing";
+import { useLocks } from "../../src/hooks/useLocks";
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
@@ -35,11 +43,23 @@ export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(
     !!profile?.push_token
   );
+  const [geofenceEnabled, setGeofenceEnabled] = useState(false);
   const [toast, setToast] = useState({ visible: false, message: "" });
+  const { locks } = useLocks();
 
   useEffect(() => {
     setDisplayName(profile?.display_name ?? "");
   }, [profile?.display_name]);
+
+  useEffect(() => {
+    setNotificationsEnabled(!!profile?.push_token);
+  }, [profile?.push_token]);
+
+  useEffect(() => {
+    SecureStore.getItemAsync("geofence_enabled").then((val) => {
+      setGeofenceEnabled(val === "true");
+    });
+  }, []);
 
   const handleSaveName = async () => {
     if (!displayName.trim()) return;
@@ -55,6 +75,23 @@ export default function SettingsScreen() {
       if (!token) setNotificationsEnabled(false);
     } else {
       await updateProfile({ push_token: null } as any);
+    }
+  };
+
+  const handleToggleGeofence = async (value: boolean) => {
+    setGeofenceEnabled(value);
+    if (value) {
+      const granted = await requestLocationPermissions();
+      if (!granted) {
+        setGeofenceEnabled(false);
+        setToast({ visible: true, message: t("geofence.locationPermissionDenied") });
+        return;
+      }
+      await SecureStore.setItemAsync("geofence_enabled", "true");
+      await registerLockGeofences(locks);
+    } else {
+      await SecureStore.setItemAsync("geofence_enabled", "false");
+      await unregisterGeofences();
     }
   };
 
@@ -84,11 +121,18 @@ export default function SettingsScreen() {
         </Text>
         <Card className="mb-6">
           <View className="flex-row-reverse items-center gap-3 mb-4">
-            <View className="w-14 h-14 rounded-full bg-brand/20 items-center justify-center">
-              <Text className="text-brand text-xl font-bold">
-                {(profile?.display_name ?? "?").charAt(0)}
-              </Text>
-            </View>
+            {profile?.avatar_url ? (
+              <Image
+                source={{ uri: profile.avatar_url }}
+                className="w-14 h-14 rounded-full"
+              />
+            ) : (
+              <View className="w-14 h-14 rounded-full bg-brand/20 items-center justify-center">
+                <Text className="text-brand text-xl font-bold">
+                  {(profile?.display_name ?? "?").charAt(0)}
+                </Text>
+              </View>
+            )}
             <View className="flex-1">
               {editingName ? (
                 <View className="flex-row-reverse items-center gap-2">
@@ -199,6 +243,32 @@ export default function SettingsScreen() {
             <Switch
               value={notificationsEnabled}
               onValueChange={handleToggleNotifications}
+              trackColor={{ false: "#334155", true: "#3B82F6" }}
+              thumbColor="white"
+            />
+          </View>
+
+          <View className="border-t border-slate-700 mt-2 pt-2" />
+
+          <View className="flex-row-reverse items-center justify-between py-2">
+            <View className="flex-row-reverse items-center gap-2 flex-1 mr-3">
+              <MaterialCommunityIcons
+                name="map-marker-radius"
+                size={20}
+                color="#94A3B8"
+              />
+              <View className="flex-1">
+                <Text className="text-white font-bold text-right">
+                  {t("geofence.enableReminders")}
+                </Text>
+                <Text className="text-slate-500 text-xs text-right">
+                  {t("geofence.enableRemindersDesc")}
+                </Text>
+              </View>
+            </View>
+            <Switch
+              value={geofenceEnabled}
+              onValueChange={handleToggleGeofence}
               trackColor={{ false: "#334155", true: "#3B82F6" }}
               thumbColor="white"
             />

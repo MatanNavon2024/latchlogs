@@ -4,8 +4,14 @@ import { Slot, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "../global.css";
 import "../src/lib/i18n";
+import "../src/lib/geofencing";
 import { supabase } from "../src/lib/supabase";
 import { useAuthStore } from "../src/stores/authStore";
+import {
+  setupLockReminderCategory,
+  addLockReminderResponseListener,
+  registerLockGeofences,
+} from "../src/lib/geofencing";
 import type { Session } from "@supabase/supabase-js";
 
 if (!I18nManager.isRTL) {
@@ -21,6 +27,9 @@ export default function RootLayout() {
   const storeSetSession = useAuthStore((s) => s.setSession);
 
   useEffect(() => {
+    setupLockReminderCategory();
+    const reminderSub = addLockReminderResponseListener();
+
     supabase.auth
       .getSession()
       .then(({ data }) => {
@@ -40,7 +49,10 @@ export default function RootLayout() {
       storeSetSession(newSession);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+      reminderSub.remove();
+    };
   }, []);
 
   useEffect(() => {

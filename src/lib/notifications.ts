@@ -1,4 +1,5 @@
 import * as Notifications from "expo-notifications";
+import Constants from "expo-constants";
 import { Platform } from "react-native";
 import { supabase } from "./supabase";
 
@@ -33,7 +34,10 @@ export async function registerForPushNotifications(): Promise<string | null> {
     });
   }
 
-  const tokenData = await Notifications.getExpoPushTokenAsync();
+  const projectId = Constants.expoConfig?.extra?.eas?.projectId;
+  const tokenData = await Notifications.getExpoPushTokenAsync({
+    projectId,
+  });
   const token = tokenData.data;
 
   // Save token to profile
@@ -49,6 +53,64 @@ export async function registerForPushNotifications(): Promise<string | null> {
   }
 
   return token;
+}
+
+export async function sendPushToGroupMembers(
+  lockId: string,
+  action: "lock" | "unlock",
+  actorUserId: string
+) {
+  const { data: lock } = await supabase
+    .from("locks")
+    .select("name, group_id")
+    .eq("id", lockId)
+    .single();
+
+  if (!lock) return;
+
+  const { data: actorProfile } = await supabase
+    .from("profiles")
+    .select("display_name")
+    .eq("id", actorUserId)
+    .single();
+
+  const actorName = actorProfile?.display_name || "משתמש";
+  const actionText = action === "lock" ? "נעל" : "פתח";
+
+  const { data: members } = await supabase
+    .from("group_members")
+    .select("user_id")
+    .eq("group_id", lock.group_id)
+    .neq("user_id", actorUserId);
+
+  if (!members || members.length === 0) return;
+
+  const userIds = members.map((m: any) => m.user_id);
+  const { data: profiles } = await supabase
+    .from("profiles")
+    .select("push_token")
+    .in("id", userIds)
+    .not("push_token", "is", null);
+
+  const tokens = (profiles ?? [])
+    .map((p: any) => p.push_token)
+    .filter(Boolean);
+
+  if (tokens.length === 0) return;
+
+  const messages = tokens.map((token: string) => ({
+    to: token,
+    sound: "default",
+    title: lock.name,
+    body: `${actorName} ${actionText} את ${lock.name}`,
+    data: { lockId, action },
+  }));
+
+  await fetch("https://exp.host/--/api/v2/push/send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(messages),
+  });
 }
 
 export function addNotificationReceivedListener(
