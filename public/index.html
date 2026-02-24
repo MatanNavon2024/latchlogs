@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LatchLog - דעו תמיד מי נעל ומי פתח</title>
+  <meta name="description" content="LatchLog - אפליקציה לניהול מנעולים חכמים. מעקב בזמן אמת, סריקת NFC ו-QR, ניהול קבוצתי והיסטוריית אירועים.">
+  <meta name="theme-color" content="#0F172A">
+  <meta property="og:title" content="LatchLog - ניהול מנעולים חכם">
+  <meta property="og:description" content="דעו תמיד מי נעל ומי פתח. מעקב בזמן אמת דרך NFC, QR או ידנית.">
+  <meta property="og:image" content="/images/hero.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/images/hero.jpg" type="image/jpeg">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #0F172A;
+      color: #F1F5F9;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero */
+    .hero {
+      padding-top: 24px;
+      text-align: center;
+    }
+
+    .hero-image {
+      width: calc(100% + 40px);
+      margin: 0 -20px;
+      border-radius: 0;
+      display: block;
+    }
+
+    .hero-text {
+      padding: 32px 0 0;
+    }
+
+    .hero-tagline {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #F1F5F9, #94A3B8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 17px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+
+    /* Store Buttons */
+    .store-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #1E293B;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 14px 24px;
+      color: #F1F5F9;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      min-height: 56px;
+      flex: 1;
+      justify-content: center;
+      min-width: 150px;
+    }
+
+    .store-btn:hover {
+      background: #334155;
+      border-color: rgba(59, 130, 246, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .store-btn:active {
+      transform: translateY(0);
+    }
+
+    .store-btn svg {
+      flex-shrink: 0;
+    }
+
+    .store-btn-text {
+      text-align: start;
+      line-height: 1.2;
+    }
+
+    .store-btn-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .store-btn-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Features */
+    .features {
+      padding: 56px 0;
+    }
+
+    .features-title {
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 32px;
+      color: #F1F5F9;
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: #1E293B;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      animation: fadeInUp 0.5s ease both;
+    }
+
+    .feature-card:nth-child(1) { animation-delay: 0.1s; }
+    .feature-card:nth-child(2) { animation-delay: 0.2s; }
+    .feature-card:nth-child(3) { animation-delay: 0.3s; }
+    .feature-card:nth-child(4) { animation-delay: 0.4s; }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon.realtime { background: rgba(34, 197, 94, 0.15); }
+    .feature-icon.nfc { background: rgba(59, 130, 246, 0.15); }
+    .feature-icon.group { background: rgba(168, 85, 247, 0.15); }
+    .feature-icon.history { background: rgba(251, 191, 36, 0.15); }
+
+    .feature-content {
+      flex: 1;
+    }
+
+    .feature-name {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.5;
+    }
+
+    /* Bottom CTA */
+    .bottom-cta {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .bottom-cta-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .bottom-cta-subtitle {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 24px;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 24px 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 640px) {
+      .container {
+        max-width: 560px;
+      }
+
+      .hero-image {
+        width: 100%;
+        margin: 0;
+        border-radius: 20px;
+      }
+
+      .hero-tagline {
+        font-size: 34px;
+      }
+
+      .feature-list {
+        gap: 16px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 680px;
+      }
+
+      .hero-tagline {
+        font-size: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <img
+        src="/images/hero.jpg"
+        alt="LatchLog - ניהול מנעולים חכם דרך NFC, QR וידנית"
+        class="hero-image"
+        loading="eager"
+        fetchpriority="high"
+      >
+
+      <div class="hero-text">
+        <h1 class="hero-tagline">דעו תמיד<br>מי נעל ומי פתח</h1>
+        <p class="hero-subtitle">
+          נעילה ופתיחה בסריקת NFC או QR, מעקב בזמן אמת, והתראות לכל הקבוצה.
+        </p>
+
+        <div class="store-buttons">
+          <a href="#" class="store-btn" aria-label="הורדה מ-App Store">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.82 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.63 16.4 4.8C17.04 4.83 18.83 5.05 19.97 6.71C19.88 6.76 17.64 8.07 17.67 10.82C17.7 14.1 20.53 15.17 20.56 15.18C20.53 15.27 20.07 16.88 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" fill="#F1F5F9"/>
+            </svg>
+            <div class="store-btn-text">
+              <div class="store-btn-label">הורידו מ-</div>
+              <div class="store-btn-name">App Store</div>
+            </div>
+          </a>
+          <a href="#" class="store-btn" aria-label="הורדה מ-Google Play">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M3.61 1.814L13.793 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .61-.92z" fill="#4285F4"/>
+              <path d="M17.12 8.56L5.05.78C4.5.49 3.9.34 3.34.42l10.46 11.58L17.12 8.56z" fill="#EA4335"/>
+              <path d="M17.12 15.44L13.8 12 3.34 23.58c.56.08 1.16-.07 1.71-.36l12.07-7.78z" fill="#34A853"/>
+              <path d="M20.54 10.78l-3.42-2.22L13.8 12l3.32 3.44 3.42-2.22c.67-.44 1.01-1.1 1.01-1.72 0-.62-.34-1.28-1.01-1.72z" fill="#FBBC05"/>
+            </svg>
+            <div class="store-btn-text">
+              <div class="store-btn-label">זמין ב-</div>
+              <div class="store-btn-name">Google Play</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="container">
+      <h2 class="features-title">למה LatchLog?</h2>
+
+      <div class="feature-list">
+        <div class="feature-card">
+          <div class="feature-icon realtime">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="feature-content">
+            <div class="feature-name">מעקב בזמן אמת</div>
+            <div class="feature-desc">כל שינוי סטטוס מתעדכן מיידית אצל כל חברי הקבוצה.</div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon nfc">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="20" height="12" rx="2"/>
+              <path d="M12 12h.01"/>
+              <path d="M17 12h.01"/>
+              <path d="M7 12h.01"/>
+            </svg>
+          </div>
+          <div class="feature-content">
+            <div class="feature-name">NFC ו-QR</div>
+            <div class="feature-desc">סרקו תג NFC או קוד QR ליד הדלת כדי לדווח על נעילה או פתיחה בשנייה.</div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon group">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="feature-content">
+            <div class="feature-name">ניהול קבוצתי</div>
+            <div class="feature-desc">הזמינו שותפים לדירה, בני משפחה או עובדים. כולם מעודכנים, תמיד.</div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon history">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <div class="feature-content">
+            <div class="feature-name">היסטוריית אירועים</div>
+            <div class="feature-desc">יומן מלא של כל נעילה ופתיחה -- מי, מתי, ואיפה.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="bottom-cta">
+    <div class="container">
+      <h2 class="bottom-cta-title">מוכנים להתחיל?</h2>
+      <p class="bottom-cta-subtitle">הורידו את LatchLog בחינם עכשיו.</p>
+
+      <div class="store-buttons">
+        <a href="#" class="store-btn" aria-label="הורדה מ-App Store">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.82 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.63 16.4 4.8C17.04 4.83 18.83 5.05 19.97 6.71C19.88 6.76 17.64 8.07 17.67 10.82C17.7 14.1 20.53 15.17 20.56 15.18C20.53 15.27 20.07 16.88 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" fill="#F1F5F9"/>
+          </svg>
+          <div class="store-btn-text">
+            <div class="store-btn-label">הורידו מ-</div>
+            <div class="store-btn-name">App Store</div>
+          </div>
+        </a>
+        <a href="#" class="store-btn" aria-label="הורדה מ-Google Play">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M3.61 1.814L13.793 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .61-.92z" fill="#4285F4"/>
+            <path d="M17.12 8.56L5.05.78C4.5.49 3.9.34 3.34.42l10.46 11.58L17.12 8.56z" fill="#EA4335"/>
+            <path d="M17.12 15.44L13.8 12 3.34 23.58c.56.08 1.16-.07 1.71-.36l12.07-7.78z" fill="#34A853"/>
+            <path d="M20.54 10.78l-3.42-2.22L13.8 12l3.32 3.44 3.42-2.22c.67-.44 1.01-1.1 1.01-1.72 0-.62-.34-1.28-1.01-1.72z" fill="#FBBC05"/>
+          </svg>
+          <div class="store-btn-text">
+            <div class="store-btn-label">זמין ב-</div>
+            <div class="store-btn-name">Google Play</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 LatchLog. כל הזכויות שמורות.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
