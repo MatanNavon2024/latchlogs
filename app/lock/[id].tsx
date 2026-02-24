@@ -163,7 +163,7 @@ export default function LockDetailScreen() {
   return (
     <View className="flex-1 bg-slate-900" style={{ paddingTop: insets.top }}>
       {/* Header */}
-      <View className="px-5 py-4 flex-row-reverse items-center justify-between">
+      <View className="px-5 py-4 flex-row items-center justify-between">
         <TouchableOpacity onPress={() => router.back()}>
           <MaterialCommunityIcons name="arrow-right" size={28} color="white" />
         </TouchableOpacity>
@@ -205,7 +205,7 @@ export default function LockDetailScreen() {
         </Card>
 
         {/* Action buttons */}
-        <View className="flex-row-reverse gap-3 mb-6">
+        <View className="flex-row gap-3 mb-6">
           <TouchableOpacity
             className="flex-1 py-5 rounded-2xl items-center bg-locked"
             onPress={() => handleAction("lock")}
@@ -230,7 +230,7 @@ export default function LockDetailScreen() {
         {/* NFC Write button */}
         {activeRole === "admin" && (
           <TouchableOpacity
-            className={`border rounded-2xl py-4 px-5 mb-4 flex-row-reverse items-center justify-between ${
+            className={`border rounded-2xl py-4 px-5 mb-4 flex-row items-center justify-between ${
               nfcSupported
                 ? "bg-slate-800 border-slate-700"
                 : "bg-slate-800/50 border-slate-700/50"
@@ -247,7 +247,7 @@ export default function LockDetailScreen() {
             disabled={writingNfc}
             activeOpacity={0.7}
           >
-            <View className="flex-row-reverse items-center gap-3">
+            <View className="flex-row items-center gap-3">
               <View className="w-10 h-10 rounded-full bg-brand/20 items-center justify-center">
                 <MaterialCommunityIcons
                   name="cellphone-nfc"
@@ -288,8 +288,8 @@ export default function LockDetailScreen() {
           onPress={() => setShowQr(!showQr)}
           activeOpacity={0.7}
         >
-          <View className="flex-row-reverse items-center justify-between">
-            <View className="flex-row-reverse items-center gap-3">
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row items-center gap-3">
               <View className="w-10 h-10 rounded-full bg-brand/20 items-center justify-center">
                 <MaterialCommunityIcons
                   name="qrcode"
@@ -333,7 +333,7 @@ export default function LockDetailScreen() {
         {/* Location / Geofence */}
         {activeRole === "admin" && (
           <TouchableOpacity
-            className={`border rounded-2xl py-4 px-5 mb-4 flex-row-reverse items-center justify-between ${
+            className={`border rounded-2xl py-4 px-5 mb-4 flex-row items-center justify-between ${
               lock.latitude
                 ? "bg-brand/10 border-brand/30"
                 : "bg-slate-800 border-slate-700"
@@ -343,7 +343,7 @@ export default function LockDetailScreen() {
             disabled={fetchingLocation}
             activeOpacity={0.7}
           >
-            <View className="flex-row-reverse items-center gap-3">
+            <View className="flex-row items-center gap-3">
               <View
                 className={`w-10 h-10 rounded-full items-center justify-center ${
                   lock.latitude ? "bg-brand/20" : "bg-slate-700"
@@ -396,7 +396,7 @@ export default function LockDetailScreen() {
             {t("lock.detail")}
           </Text>
           {lock.nfc_tag_id && (
-            <View className="flex-row-reverse items-center gap-2 mb-1">
+            <View className="flex-row items-center gap-2 mb-1">
               <MaterialCommunityIcons
                 name="cellphone-nfc"
                 size={16}
@@ -407,7 +407,7 @@ export default function LockDetailScreen() {
               </Text>
             </View>
           )}
-          <View className="flex-row-reverse items-center gap-2">
+          <View className="flex-row items-center gap-2">
             <MaterialCommunityIcons name="qrcode" size={16} color="#64748B" />
             <Text className="text-slate-400 text-sm">
               QR: {lock.qr_code_id.slice(0, 8)}...

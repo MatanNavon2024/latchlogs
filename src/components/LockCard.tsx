@@ -24,8 +24,8 @@ export function LockCard({ lock, onLock, onUnlock }: LockCardProps) {
         activeOpacity={0.8}
         onPress={() => router.push(`/lock/${lock.id}`)}
       >
-        <View className="flex-row-reverse items-center justify-between mb-3">
-          <View className="flex-row-reverse items-center gap-2 flex-1">
+        <View className="flex-row items-center justify-between mb-3">
+          <View className="flex-row items-center gap-2 flex-1">
             <View
               className={`w-10 h-10 rounded-full items-center justify-center ${
                 isLocked ? "bg-locked/20" : status ? "bg-unlocked/20" : "bg-slate-700"
@@ -52,7 +52,7 @@ export function LockCard({ lock, onLock, onUnlock }: LockCardProps) {
         </View>
       </TouchableOpacity>
 
-      <View className="flex-row-reverse gap-2">
+      <View className="flex-row gap-2">
         <TouchableOpacity
           className={`flex-1 py-3 rounded-xl items-center ${
             isLocked ? "bg-locked/10 border border-locked/30" : "bg-locked"

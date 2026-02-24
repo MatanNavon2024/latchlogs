@@ -82,7 +82,8 @@ end
 
 # Embed App Clip in main app
 embed_phase = main_target.new_copy_files_build_phase('Embed App Clips')
-embed_phase.dst_subfolder_spec = '16'  # App Clips folder
+embed_phase.dst_subfolder_spec = '16'
+embed_phase.dst_path = '$(CONTENTS_FOLDER_PATH)/AppClips'
 embed_phase.add_file_reference(clip_target.product_reference)
 
 # Add dependency: main app depends on App Clip

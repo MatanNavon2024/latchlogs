@@ -39,7 +39,7 @@ export default function InviteScreen() {
   return (
     <View className="flex-1 bg-slate-900" style={{ paddingTop: insets.top }}>
       {/* Header */}
-      <View className="px-5 py-4 flex-row-reverse items-center justify-between">
+      <View className="px-5 py-4 flex-row items-center justify-between">
         <TouchableOpacity onPress={() => router.back()}>
           <MaterialCommunityIcons
             name="arrow-right"

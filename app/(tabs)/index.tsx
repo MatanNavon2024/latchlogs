@@ -195,7 +195,7 @@ export default function HomeScreen() {
         }
       >
         {/* Header */}
-        <View className="px-6 pt-4 pb-2 flex-row-reverse items-center justify-between">
+        <View className="px-6 pt-4 pb-2 flex-row items-center justify-between">
           <View>
             <Text className="text-white text-2xl font-bold text-right">
               {t("home.title")}
@@ -261,7 +261,7 @@ export default function HomeScreen() {
 
         {/* Recent Activity */}
         <View className="px-6 pt-2 pb-4">
-          <View className="flex-row-reverse items-center justify-between mb-3">
+          <View className="flex-row items-center justify-between mb-3">
             <Text className="text-white text-lg font-bold">
               {t("history.title")}
             </Text>
@@ -329,7 +329,7 @@ function ActivityRow({
 
   return (
     <View
-      className={`flex-row-reverse items-center px-4 py-3 ${
+      className={`flex-row items-center px-4 py-3 ${
         !isLast ? "border-b border-slate-700/50" : ""
       }`}
     >
@@ -346,7 +346,7 @@ function ActivityRow({
       </View>
 
       <View className="flex-1 mr-3">
-        <View className="flex-row-reverse items-center gap-1">
+        <View className="flex-row items-center gap-1">
           <Text className="text-white font-bold text-sm">
             {event.user?.display_name || "—"}
           </Text>

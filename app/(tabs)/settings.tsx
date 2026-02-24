@@ -120,7 +120,7 @@ export default function SettingsScreen() {
           {t("settings.profile")}
         </Text>
         <Card className="mb-6">
-          <View className="flex-row-reverse items-center gap-3 mb-4">
+          <View className="flex-row items-center gap-3 mb-4">
             {profile?.avatar_url ? (
               <Image
                 source={{ uri: profile.avatar_url }}
@@ -135,7 +135,7 @@ export default function SettingsScreen() {
             )}
             <View className="flex-1">
               {editingName ? (
-                <View className="flex-row-reverse items-center gap-2">
+                <View className="flex-row items-center gap-2">
                   <TextInput
                     className="flex-1 bg-slate-700 rounded-lg px-3 py-2 text-white text-right"
                     value={displayName}
@@ -179,7 +179,7 @@ export default function SettingsScreen() {
           {groups.map((group) => (
             <TouchableOpacity
               key={group.id}
-              className={`flex-row-reverse items-center justify-between py-3 ${
+              className={`flex-row items-center justify-between py-3 ${
                 group.id !== groups[groups.length - 1].id
                   ? "border-b border-slate-700"
                   : ""
@@ -187,7 +187,7 @@ export default function SettingsScreen() {
               onPress={() => setActiveGroup(group.id)}
               onLongPress={() => router.push(`/group/${group.id}`)}
             >
-              <View className="flex-row-reverse items-center gap-2">
+              <View className="flex-row items-center gap-2">
                 <MaterialCommunityIcons
                   name={
                     activeGroupId === group.id
@@ -213,7 +213,7 @@ export default function SettingsScreen() {
           ))}
         </Card>
 
-        <View className="flex-row-reverse gap-2 mb-6">
+        <View className="flex-row gap-2 mb-6">
           <TouchableOpacity
             className="flex-1 bg-slate-800 border border-slate-700 rounded-xl py-3 items-center"
             onPress={() => router.push("/group/join")}
@@ -229,8 +229,8 @@ export default function SettingsScreen() {
           העדפות
         </Text>
         <Card className="mb-6">
-          <View className="flex-row-reverse items-center justify-between py-2">
-            <View className="flex-row-reverse items-center gap-2">
+          <View className="flex-row items-center justify-between py-2">
+            <View className="flex-row items-center gap-2">
               <MaterialCommunityIcons
                 name="bell-outline"
                 size={20}
@@ -250,8 +250,8 @@ export default function SettingsScreen() {
 
           <View className="border-t border-slate-700 mt-2 pt-2" />
 
-          <View className="flex-row-reverse items-center justify-between py-2">
-            <View className="flex-row-reverse items-center gap-2 flex-1 mr-3">
+          <View className="flex-row items-center justify-between py-2">
+            <View className="flex-row items-center gap-2 flex-1 mr-3">
               <MaterialCommunityIcons
                 name="map-marker-radius"
                 size={20}

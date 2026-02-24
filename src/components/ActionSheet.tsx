@@ -42,7 +42,7 @@ export function ActionSheet({
 
             <View className="gap-3">
               <TouchableOpacity
-                className="bg-locked py-5 rounded-2xl items-center flex-row-reverse justify-center gap-3"
+                className="bg-locked py-5 rounded-2xl items-center flex-row justify-center gap-3"
                 onPress={onLock}
                 activeOpacity={0.7}
               >
@@ -57,7 +57,7 @@ export function ActionSheet({
               </TouchableOpacity>
 
               <TouchableOpacity
-                className="bg-unlocked py-5 rounded-2xl items-center flex-row-reverse justify-center gap-3"
+                className="bg-unlocked py-5 rounded-2xl items-center flex-row justify-center gap-3"
                 onPress={onUnlock}
                 activeOpacity={0.7}
               >

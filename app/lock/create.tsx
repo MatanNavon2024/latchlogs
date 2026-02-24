@@ -87,7 +87,7 @@ export default function CreateLockScreen() {
       style={{ paddingTop: insets.top }}
     >
       {/* Header */}
-      <View className="px-5 py-4 flex-row-reverse items-center justify-between">
+      <View className="px-5 py-4 flex-row items-center justify-between">
         <TouchableOpacity onPress={() => router.back()}>
           <MaterialCommunityIcons name="arrow-right" size={28} color="white" />
         </TouchableOpacity>
@@ -115,7 +115,7 @@ export default function CreateLockScreen() {
           <Text className="text-slate-300 text-sm mb-1 text-right">
             NFC Tag ID (אופציונלי)
           </Text>
-          <View className="flex-row-reverse gap-2">
+          <View className="flex-row gap-2">
             <TextInput
               className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white text-right"
               placeholder="ניתן להוסיף מאוחר יותר"
@@ -146,7 +146,7 @@ export default function CreateLockScreen() {
 
         {/* Location for geofence reminders */}
         <TouchableOpacity
-          className={`border rounded-2xl py-4 px-5 flex-row-reverse items-center justify-between ${
+          className={`border rounded-2xl py-4 px-5 flex-row items-center justify-between ${
             location
               ? "bg-brand/10 border-brand/30"
               : "bg-slate-800 border-slate-700"
@@ -155,7 +155,7 @@ export default function CreateLockScreen() {
           disabled={fetchingLocation}
           activeOpacity={0.7}
         >
-          <View className="flex-row-reverse items-center gap-3">
+          <View className="flex-row items-center gap-3">
             <View
               className={`w-10 h-10 rounded-full items-center justify-center ${
                 location ? "bg-brand/20" : "bg-slate-700"

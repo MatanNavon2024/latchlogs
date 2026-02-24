@@ -100,7 +100,7 @@ export default function MembersScreen() {
 
       return (
         <View className="bg-slate-800/50 rounded-2xl px-4 py-4 mb-3">
-          <View className="flex-row-reverse items-center">
+          <View className="flex-row items-center">
             {/* Avatar */}
             <View
               className="w-12 h-12 rounded-full items-center justify-center"
@@ -115,7 +115,7 @@ export default function MembersScreen() {
 
             {/* Name & role */}
             <View className="flex-1 mr-3">
-              <View className="flex-row-reverse items-center gap-2">
+              <View className="flex-row items-center gap-2">
                 <Text className="text-white text-base font-bold">
                   {item.profiles?.display_name || "—"}
                 </Text>
@@ -127,7 +127,7 @@ export default function MembersScreen() {
                   </View>
                 )}
               </View>
-              <View className="flex-row-reverse items-center gap-2 mt-1">
+              <View className="flex-row items-center gap-2 mt-1">
                 <View
                   className="px-2 py-0.5 rounded-full"
                   style={{ backgroundColor: role.color + "20" }}
@@ -191,7 +191,7 @@ export default function MembersScreen() {
   return (
     <View className="flex-1 bg-slate-900" style={{ paddingTop: insets.top }}>
       {/* Header */}
-      <View className="px-6 pt-4 pb-2 flex-row-reverse items-center justify-between">
+      <View className="px-6 pt-4 pb-2 flex-row items-center justify-between">
         <Text className="text-white text-2xl font-bold">
           {t("members.title")}
         </Text>

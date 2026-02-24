@@ -20,7 +20,7 @@ export function EventItem({ event }: EventItemProps) {
   };
 
   return (
-    <View className="flex-row-reverse items-center py-3 border-b border-slate-800">
+    <View className="flex-row items-center py-3 border-b border-slate-800">
       <View
         className={`w-10 h-10 rounded-full items-center justify-center ${
           isLock ? "bg-locked/20" : "bg-unlocked/20"
@@ -34,7 +34,7 @@ export function EventItem({ event }: EventItemProps) {
       </View>
 
       <View className="flex-1 mr-3">
-        <View className="flex-row-reverse items-center gap-1">
+        <View className="flex-row items-center gap-1">
           <Text className="text-white font-bold text-right">
             {event.user?.display_name || "—"}
           </Text>
@@ -45,7 +45,7 @@ export function EventItem({ event }: EventItemProps) {
             {event.lock?.name || "—"}
           </Text>
         </View>
-        <View className="flex-row-reverse items-center gap-2 mt-1">
+        <View className="flex-row items-center gap-2 mt-1">
           <Text className="text-slate-500 text-xs">
             {timeAgo(event.created_at)}
           </Text>

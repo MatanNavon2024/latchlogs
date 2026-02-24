@@ -63,7 +63,7 @@ export default function JoinGroupScreen() {
       style={{ paddingTop: insets.top }}
     >
       {/* Header */}
-      <View className="px-5 py-4 flex-row-reverse items-center justify-between">
+      <View className="px-5 py-4 flex-row items-center justify-between">
         <TouchableOpacity onPress={() => router.back()}>
           <MaterialCommunityIcons
             name="arrow-right"
@@ -78,7 +78,7 @@ export default function JoinGroupScreen() {
       </View>
 
       {/* Mode toggle */}
-      <View className="flex-row-reverse mx-6 mb-6 bg-slate-800 rounded-xl p-1">
+      <View className="flex-row mx-6 mb-6 bg-slate-800 rounded-xl p-1">
         <TouchableOpacity
           className={`flex-1 py-2 rounded-lg items-center ${
             mode === "join" ? "bg-brand" : ""

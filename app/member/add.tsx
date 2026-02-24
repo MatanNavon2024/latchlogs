@@ -110,7 +110,7 @@ export default function AddMemberScreen() {
       style={{ paddingTop: insets.top }}
     >
       {/* Header */}
-      <View className="px-5 py-4 flex-row-reverse items-center justify-between">
+      <View className="px-5 py-4 flex-row items-center justify-between">
         <TouchableOpacity onPress={() => router.back()}>
           <MaterialCommunityIcons name="arrow-right" size={28} color="white" />
         </TouchableOpacity>
@@ -171,11 +171,11 @@ export default function AddMemberScreen() {
           <Text className="text-slate-300 text-sm mb-2 text-right">
             {t("members.role")}
           </Text>
-          <View className="flex-row-reverse gap-2">
+          <View className="flex-row gap-2">
             {ROLES.map((r) => (
               <TouchableOpacity
                 key={r.value}
-                className={`flex-1 py-3 rounded-xl items-center flex-row-reverse justify-center gap-2 ${
+                className={`flex-1 py-3 rounded-xl items-center flex-row justify-center gap-2 ${
                   role === r.value
                     ? "bg-brand border-2 border-brand"
                     : "bg-slate-800 border border-slate-700"

@@ -73,7 +73,7 @@ export default function GroupDetailScreen() {
   return (
     <View className="flex-1 bg-slate-900" style={{ paddingTop: insets.top }}>
       {/* Header */}
-      <View className="px-5 py-4 flex-row-reverse items-center justify-between">
+      <View className="px-5 py-4 flex-row items-center justify-between">
         <TouchableOpacity onPress={() => router.back()}>
           <MaterialCommunityIcons
             name="arrow-right"
@@ -93,7 +93,7 @@ export default function GroupDetailScreen() {
           <Text className="text-slate-300 text-sm font-bold mb-2 text-right">
             {t("group.inviteCode")}
           </Text>
-          <View className="flex-row-reverse items-center gap-2">
+          <View className="flex-row items-center gap-2">
             <Text className="text-white text-lg font-mono flex-1 text-right">
               {group.invite_code}
             </Text>
@@ -134,7 +134,7 @@ export default function GroupDetailScreen() {
 
           return (
             <TouchableOpacity
-              className="flex-row-reverse items-center py-3 border-b border-slate-800"
+              className="flex-row items-center py-3 border-b border-slate-800"
               onLongPress={() => {
                 if (activeRole === "admin" && !isCurrentUser) {
                   Alert.alert(displayName, undefined, [
